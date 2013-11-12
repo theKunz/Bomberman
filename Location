@@ -1,0 +1,124 @@
+package com.proj3.bomberman;
+
+public class Location 
+{
+
+    private int x;
+    private int y;
+
+
+    /**
+     * Constructor, takes an x and y coordinate and holds a coordinate position
+     * as an object
+     * 
+     * @param xpos
+     *            horizontal position
+     * @param ypos
+     *            vertical position (note: top = 0, bot = n)
+     */
+    public Location(int xpos, int ypos)
+    {
+        x = xpos;
+        y = ypos;
+    }
+
+
+
+    /**
+     * returns a new Location object one to the right of this one. One x
+     * coordinate higher
+     * @return (x + 1, y) in new Location object
+     */
+    public Location east()
+    {
+        Location newEast = new Location(x + 1, y);
+        return newEast;
+    }
+
+
+
+    /**
+     * returns a new Location object one to the up of this one. One y
+     * coordinate lower
+     * @return (x , y - 1) in new Location object
+     */
+    public Location north()
+    {
+        return new Location(x, y - 1);
+    }
+
+
+
+    /**
+     * returns a new Location object one to the down of this one. One y
+     * coordinate higher
+     * @return (x , y + 1) in new Location object
+     */
+    public Location south()
+    {
+        return new Location(x, y + 1);
+    }
+
+
+
+    /**
+     * returns a new Location object one to the left of this one. One x
+     * coordinate lower
+     * @return (x - 1 , y) in new Location object
+     */
+    public Location west()
+    {
+        return new Location(x - 1, y);
+    }
+
+
+
+    /**
+     * returns the x coordinate of this Ilocation object
+     */
+    public int x()
+    {
+        return x;
+    }
+
+
+
+    /**
+     * returns the y coordinate of this Ilocation object
+     */
+    public int y()
+    {
+        return y;
+    }
+
+
+    /**
+     * @param compared
+     *            The Ilocation object to be compared
+     * @return true if the x and y coordinates are the same
+     */
+     public boolean equals(Object compared)
+     {
+         if (compared instanceof Location)
+         {
+             return (this.x() == ((Location)compared).x())
+                 && (this.y() == ((Location)compared).y());
+         }
+         else
+         {
+             return false;
+         }
+     }
+
+
+     /**
+      * Returns the coordinates in a readable String
+      * 
+      * @return in the form of "x, y "
+      */
+     public String toString()
+     {
+         return "(" + x + ", " + y + ")";
+     }
+
+}
