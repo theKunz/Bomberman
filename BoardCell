@@ -5,7 +5,7 @@ public class BoardCell
     public enum BoardCells
     {
         WALL,
-        EXPLODING_WALL,
+        DEBRIS,
         PATH,
         INVALID
     }
