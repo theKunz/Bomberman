@@ -1,0 +1,62 @@
+package com.proj3.bomberman;
+
+import sofia.graphics.Color;
+import sofia.graphics.RectangleShape;
+
+// -------------------------------------------------------------------------
+/**
+ * wooo
+ *
+ * @author Aaron Kunzer (aaronk1)
+ * @version Oct 10, 2013
+ */
+public class Tile extends RectangleShape
+{
+    // ----------------------------------------------------------
+    private Location loc;
+    // ----------------------------------------------------------
+    /**
+     * Create a new Tile object.
+     * @param left left x coordinate
+     * @param top top y coordinate
+     * @param right right x coordinate
+     * @param bottom bottom y coordinate
+     * @param here Location coordinate for maze solving purposes
+     */
+    public Tile(float left, float top, float right,
+        float bottom, Location here)
+    {
+        super(left, top, right, bottom);
+        setFillColor(Color.gray);
+        loc = here;
+    }
+
+    // ----------------------------------------------------------
+
+
+    /**
+     * returns the coordinate of this tile within the context of the maze grid
+     * @return the maze coordinate
+     */
+    public Location getCoord()
+    {
+        return loc;
+    }
+    /**
+     * returns the y-coordinate center of the tile
+     * @return y-coord in float form
+     */
+    public float getCenterPointY()
+    {
+        return (this.getHeight() * loc.y() + (this.getHeight() / 2));
+    }
+    /**
+     * returns the x-coordinate center of the tile
+     * @return x-coord in float form
+     */
+    public float getCenterPointX()
+    {
+        return (this.getWidth() * loc.x() + (this.getWidth() / 2));
+    }
+
+}
