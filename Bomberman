@@ -1,0 +1,7 @@
+//The player
+package com.proj3.bomberman;
+
+public class Bomberman
+{
+
+}
