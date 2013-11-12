@@ -1,6 +1,18 @@
-package com.proj3.bomberman;
+package cs2114.bomberman;
 
-public class Location 
+// -------------------------------------------------------------------------
+/**
+ * this is our "super class" for all of our other It will control our grid, and
+ * x and y locations within the grid
+ *
+ * we will be using a 7 x 11 grid for the game
+ *
+ * @author zhinson
+ * @author crc1559
+ * @author theKunz
+ * @version 11.12.2013
+ */
+public class Location
 {
 
     private int x;
@@ -10,7 +22,7 @@ public class Location
     /**
      * Constructor, takes an x and y coordinate and holds a coordinate position
      * as an object
-     * 
+     *
      * @param xpos
      *            horizontal position
      * @param ypos
@@ -23,58 +35,114 @@ public class Location
     }
 
 
-
     /**
      * returns a new Location object one to the right of this one. One x
      * coordinate higher
+     *
+     * checks for out of bounds
+     * if trying to move out of bounds, return the same location
+     * the object is at (return this)
+     *
      * @return (x + 1, y) in new Location object
      */
     public Location east()
     {
-        Location newEast = new Location(x + 1, y);
-        return newEast;
+        if (x < 7)
+            //bounds checking
+        {
+            return new Location(x + 1, y);
+            //creates a new location one spot to the right and returns it
+        }
+        else
+        {
+            return this;
+            //returns the current location if trying to move out of bounds
+        }
     }
 
 
-
     /**
-     * returns a new Location object one to the up of this one. One y
-     * coordinate lower
+     * returns a new Location object one to the up of this one.
+     * One y coordinate
+     * lower
+     *
+     * checks for out of bounds
+     * if trying to move out of bounds, return the same location
+     * the object is at (return this)
+     *
      * @return (x , y - 1) in new Location object
      */
     public Location north()
     {
-        return new Location(x, y - 1);
+        if (y > 0)
+            //checks for out of bounds
+        {
+            return new Location(x, y - 1);
+            //creates a new location one spot up and returns it
+        }
+        else
+        {
+            return this;
+            //returns the current location if trying to move out of bounds
+        }
     }
-
 
 
     /**
      * returns a new Location object one to the down of this one. One y
      * coordinate higher
+     *
+     * checks for out of bounds
+     * if trying to move out of bounds, return the same location
+     * the object is at (return this)
+     *
      * @return (x , y + 1) in new Location object
      */
     public Location south()
     {
-        return new Location(x, y + 1);
+        if (y < 11)
+            //bounds checking
+        {
+            return new Location(x, y + 1);
+            //creates a new location one spot down and returns it
+        }
+        else
+        {
+            return this;
+            //returns the current location if trying to move out of bounds
+        }
     }
-
 
 
     /**
      * returns a new Location object one to the left of this one. One x
      * coordinate lower
+     *
+     * checks for out of bounds
+     * if trying to move out of bounds, return the same location
+     * the object is at (return this)
+     *
      * @return (x - 1 , y) in new Location object
      */
     public Location west()
     {
-        return new Location(x - 1, y);
+        if (x > 0)
+            //bounds checking
+        {
+            return new Location(x - 1, y);
+            //creates and returns a new location object one spot to the left
+        }
+        else
+        {
+            return this;
+            //if trying to move out of bounds returns the current location only
+        }
     }
 
 
-
     /**
-     * returns the x coordinate of this Ilocation object
+     * returns the x coordinate of the object
+     * @return x field
      */
     public int x()
     {
@@ -82,9 +150,9 @@ public class Location
     }
 
 
-
     /**
-     * returns the y coordinate of this Ilocation object
+     * returns the y coordinate of the object
+     * @return y field
      */
     public int y()
     {
@@ -93,32 +161,35 @@ public class Location
 
 
     /**
+     * this tests two locations to see if they are the same
      * @param compared
-     *            The Ilocation object to be compared
+     *            The location object to be compared
      * @return true if the x and y coordinates are the same
      */
-     public boolean equals(Object compared)
-     {
-         if (compared instanceof Location)
-         {
-             return (this.x() == ((Location)compared).x())
-                 && (this.y() == ((Location)compared).y());
-         }
-         else
-         {
-             return false;
-         }
-     }
+    public boolean equals(Object compared)
+    {
+        if (compared != null && compared instanceof Location)
+        {
+            return (this.x() == ((Location)compared).x())
+                && (this.y() == ((Location)compared).y());
+            //return true if x & y fields are the same, false if not
+        }
+        else
+        {
+            return false;
+            //this is because it needs a return statement outside of the IF
+        }
+    }
 
 
-     /**
-      * Returns the coordinates in a readable String
-      * 
-      * @return in the form of "x, y "
-      */
-     public String toString()
-     {
-         return "(" + x + ", " + y + ")";
-     }
+    /**
+     * Returns the coordinates in a readable String
+     *
+     * @return in the form of (x, y)
+     */
+    public String toString()
+    {
+        return "(" + x + ", " + y + ")";
+    }
 
 }
