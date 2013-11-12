@@ -1,6 +1,12 @@
-package com.proj3.bomberman;
+package cs2114.bomberman;
 
 public class BoardCell
 {
-
+    public enum BoardCells
+    {
+        WALL,
+        EXPLODING_WALL,
+        PATH,
+        INVALID
+    }
 }
