@@ -12,15 +12,14 @@ import sofia.app.Screen;
  *  @author Aaron
  *  @version Nov 12, 2013
  */
-public class Bomberman extends Screen
+public class TheScreen extends Screen
 {
     // ----------------------------------------------------------
     /**
      * Constructor
      */
-    public Bomberman()
+    public TheScreen()
     {
         
     }
 }
-
