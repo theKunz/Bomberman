@@ -1,4 +1,4 @@
-package com.proj3.bomberman;
+package cs2114.bomberman;
 
 import sofia.graphics.Color;
 import sofia.graphics.RectangleShape;
@@ -27,7 +27,8 @@ public class Tile extends RectangleShape
         float bottom, Location here)
     {
         super(left, top, right, bottom);
-        setFillColor(Color.gray);
+        setFillColor(Color.white);
+        setColor(Color.black);
         loc = here;
     }
 
