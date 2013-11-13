@@ -1,5 +1,7 @@
 package cs2114.bomberman;
 
+import cs2114.bomberman.BoardCell.CellTypes;
+
 // -------------------------------------------------------------------------
 /**
  *  this is our AlliedBomb class.
@@ -14,6 +16,7 @@ package cs2114.bomberman;
 
 public class AlliedBomb
 {
+    private Location location;
     /**
      * range of the explosion
      */
@@ -103,7 +106,7 @@ public class AlliedBomb
     {
         for (int i = 1; i <= explosionRadius; i++)
         {
-            Location location = new Location(x, y - i);
+            location = new Location(x, y - i);
             helpExplode();
             /** for all of these I need to figure out
              * how to be able to tell if it hits a wall / debris / bomberman
@@ -118,7 +121,7 @@ public class AlliedBomb
     {
         for (int i = 1; i <= explosionRadius; i++)
         {
-            Location location = new Location(x, y + i);
+            location = new Location(x, y + i);
             helpExplode();
         }
     }
@@ -127,7 +130,7 @@ public class AlliedBomb
     {
         for (int i = 1; i <= explosionRadius; i++)
         {
-            Location location = new Location(x + i, y);
+            location = new Location(x + i, y);
             helpExplode();
         }
     }
@@ -136,20 +139,20 @@ public class AlliedBomb
     {
         for (int i = 1; i <= explosionRadius; i++)
         {
-            Location location = new Location(x - i, y);
+            location = new Location(x - i, y);
             helpExplode();
         }
     }
-        
+
     public void helpExplode()
     {
-        if (cells[loc.x()][loc.y()] == DEBRIS)
+        if (Board.cells[location.x()][location.y()] == CellTypes.DEBRIS)
         {
-        cells[loc.x()][loc.y()] = PATH;
+        Board.cells[location.x()][location.y()] = CellTypes.PATH;
         }
     }
-    
-    
+
+
     /**
      * returns x
      * @return x x loc
@@ -166,5 +169,4 @@ public class AlliedBomb
     {
         return y;
     }
-
 }
