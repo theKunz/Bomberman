@@ -2,7 +2,7 @@ package cs2114.bomberman;
 
 public class BoardCell
 {
-    public enum BoardCells
+    public enum CellTypes
     {
         WALL,
         DEBRIS,
