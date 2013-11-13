@@ -15,7 +15,11 @@ import cs2114.bomberman.BoardCell.CellTypes;
  */
 public class Board
 {
-    private CellTypes[][] cells;
+    /**
+     * CellTypes array that contains each cell of the board. Referenced in 
+     * AlliedBomb.
+     */
+    protected CellTypes[][] cells;
     private CellTypes path = CellTypes.PATH;
 
     // ----------------------------------------------------------
@@ -59,5 +63,6 @@ public class Board
             cells[loc.x()][loc.y()] = cell;
         }
     }
+
 
 }
