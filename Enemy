@@ -1,6 +1,94 @@
-package com.proj3.bomberman;
+package cs2114.bomberman;
 
+import cs2114.bomberman.BoardCell.CellTypes;
+
+// -------------------------------------------------------------------------
+/**
+ *  The enemy that will walk around randomly and try to kill bomberman
+ *
+ *  @author Aaron
+ *  @version Nov 12, 2013
+ */
 public class Enemy
 {
+    private Location loc;
+    private Board board;
 
+    // ----------------------------------------------------------
+    /**
+     * Constructor, sets an enemy at the location
+     * @param startLocation
+     */
+    public Enemy(Location startLocation, Board bo)
+    {
+        loc = startLocation;
+    }
+
+    /**
+    * returns either null or a Location. The Screen will then read the
+    * returned action accordingly. A null return will have the enemy do nothing
+    * With a location return, the screen will move the enemy to the new
+    * location. If the location is its current position, it will drop a 
+    * bomb.
+    * @return The randomly determined action
+    */
+    public Location action()
+    {
+        Random rand = Random.generator();
+        int num = (int)Math.floor(rand.nextDouble(0, 5));
+        switch (num)
+        {
+            case (0):
+                if (board.getCell(loc.north()) == CellTypes.PATH)
+                {
+                    loc = new Location(loc.x(), loc.y() - 1);
+                    return loc;
+                }
+                return null;
+            case(1):
+                if (board.getCell(loc.south()) == CellTypes.PATH)
+                {
+                    loc = new Location(loc.x(), loc.y() + 1);
+                    return loc;
+                }
+                return null;
+            case(2):
+                if (board.getCell(loc.east()) == CellTypes.PATH)
+                {
+                    loc = new Location(loc.x() + 1, loc.y());
+                    return loc;
+                }
+                return null;
+            case(3):
+                if (board.getCell(loc.west()) == CellTypes.PATH)
+                {
+                    loc = new Location(loc.x() - 1, loc.y());
+                    return loc;
+                }
+                return null;
+            case(4):
+                return loc;
+        }
+        return null;
+
+    }
+
+    /**
+     * Returns the current location of the Enemy
+     * @return Location object
+     */
+    public Location getLocation()
+    {
+        return loc;
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     * @param locs the new Location
+     */
+    public void setLocation(Location locs)
+    {
+        loc = locs;
+    }
 }
