@@ -104,6 +104,7 @@ public class AlliedBomb
         for (int i = 1; i <= explosionRadius; i++)
         {
             Location location = new Location(x, y - i);
+            helpExplode();
             /** for all of these I need to figure out
              * how to be able to tell if it hits a wall / debris / bomberman
              * and when that happens, destory (unless wall) the object
@@ -118,6 +119,7 @@ public class AlliedBomb
         for (int i = 1; i <= explosionRadius; i++)
         {
             Location location = new Location(x, y + i);
+            helpExplode();
         }
     }
 
@@ -126,6 +128,7 @@ public class AlliedBomb
         for (int i = 1; i <= explosionRadius; i++)
         {
             Location location = new Location(x + i, y);
+            helpExplode();
         }
     }
 
@@ -134,10 +137,17 @@ public class AlliedBomb
         for (int i = 1; i <= explosionRadius; i++)
         {
             Location location = new Location(x - i, y);
+            helpExplode();
         }
     }
-
-    
+        
+    public void helpExplode()
+    {
+        if (cells[loc.x()][loc.y()] == DEBRIS)
+        {
+        cells[loc.x()][loc.y()] = PATH;
+        }
+    }
     
     
     /**
