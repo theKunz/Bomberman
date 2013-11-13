@@ -12,8 +12,11 @@ package cs2114.bomberman;
  */
 public class BomberMan
 {
-    AlliedBomb bomb = new AlliedBomb();
-    Location loc;
+    private AlliedBomb bomb;
+    private Location loc;
+    private int time;
+    private int radius;
+    private PowerUp power;
 
     // ----------------------------------------------------------
     /**
@@ -22,6 +25,8 @@ public class BomberMan
     public BomberMan()
     {
         loc = new Location(0, 0);
+        time = 3;
+        radius = 1;
     }
 
     // ----------------------------------------------------------
@@ -72,13 +77,28 @@ public class BomberMan
         }
     }
 
+    public void powerUp()
+    {
+        if (power = timeInc)
+        {
+            time = 4;
+        }
+        else if (power = radInc)
+        {
+
+        }
+        else if (power = shield)
+        {
+
+        }
+    }
     // ----------------------------------------------------------
     /**
      * Plants a bomb at BomberMan's current location.
      */
     public void plantBomb()
     {
-
+        bomb = new AlliedBomb(loc.x(), loc.y(), time, radius);
     }
 
 }
