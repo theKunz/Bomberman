@@ -1,6 +1,36 @@
-package com.proj3.bomberman;
+package cs2114.bomberman;
+
+import cs2114.bomberman.BoardCell.CellTypes;
+
 
 public class Board
 {
+    private CellTypes[][] cells;
+    private CellTypes path = CellTypes.PATH;
 
+    public Board()
+    {
+        cells = new CellTypes[7][11];
+        for (int i = 0; i < 7; i++)
+        {
+
+            for (int k = 0; k < 11; k++)
+            {
+                cells[i][k] = path;
+            }
+        }
+    }
+
+    public CellTypes getCell(Location loc)
+    {
+        return cells[loc.x()][loc.y()];
+    }
+
+    public void setCell(Location loc, CellTypes cell)
+    {
+        if (loc != null)
+        {
+            cells[loc.x()][loc.y()] = cell;
+        }
+    }
 }
