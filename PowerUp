@@ -1,12 +1,25 @@
 package cs2114.bomberman;
 
+import sofia.util.Random;
+
 public class PowerUp
 {
 
-  public PowerUp()
-  {
+    private Location loc;
+    private int x;
+    private int y;
+    private int type;
 
-  }
+    public PowerUp()
+    {
+        type = Random.generator().nextInt(3);
+        x = Random.generator().nextInt(7);
+        y = Random.generator().nextInt(11);
+        loc = new Location(x, y);
+    }
 
-
+    public int getData()
+    {
+        return type;
+    }
 }
