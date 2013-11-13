@@ -1,7 +1,84 @@
-//The player
-package com.proj3.bomberman;
+package cs2114.bomberman;
 
-public class Bomberman
+// -------------------------------------------------------------------------
+/**
+ *  Initializes a BomberMan that walks around dropping bombs and picking up
+ *  power ups. He has unlimited bombs and attempts to destroy all enemies.
+ *
+ *  @author crc1559
+ *  @author zhinson
+ *  @author theKunz
+ *  @version Nov 12, 2013
+ */
+public class BomberMan
 {
+    AlliedBomb bomb = new AlliedBomb();
+    Location loc;
+
+    // ----------------------------------------------------------
+    /**
+     * Create a new BomberMan object.
+     */
+    public BomberMan()
+    {
+        loc = new Location(0, 0);
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Changes the BomberMan's location to one higher on the grid if possible.
+     */
+    public void moveUp()
+    {
+        if (loc.y() > 0)
+        {
+            loc = new Location(loc.x(), loc.y() - 1);
+        }
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Changes the BomberMan's location to one lower on the grid if possible.
+     */
+    public void moveDown()
+    {
+        if (loc.y() < 7)
+        {
+            loc = new Location(loc.x(), loc.y() + 1);
+        }
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Changes the BomberMan's location one to the left if possible.
+     */
+    public void moveLeft()
+    {
+        if (loc.x() > 0)
+        {
+            loc = new Location(loc.x() - 1, loc.y());
+        }
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Changes the BomberMan's location one to the right if possible.
+     */
+    public void moveRight()
+    {
+        if (loc.x() < 11)
+        {
+            loc = new Location(loc.x() + 1, loc.y());
+        }
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Plants a bomb at BomberMan's current location.
+     */
+    public void plantBomb()
+    {
+
+    }
 
 }
