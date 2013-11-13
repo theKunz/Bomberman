@@ -16,10 +16,10 @@ import cs2114.bomberman.BoardCell.CellTypes;
 public class Board
 {
     /**
-     * CellTypes array that contains each cell of the board. Referenced in 
+     * CellTypes array that contains each cell of the board. Referenced in
      * AlliedBomb.
      */
-    protected CellTypes[][] cells;
+    public static CellTypes[][] cells;
     private CellTypes path = CellTypes.PATH;
 
     // ----------------------------------------------------------
