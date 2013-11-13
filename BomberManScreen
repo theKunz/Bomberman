@@ -1,0 +1,39 @@
+package cs2114.bomberman;
+
+import sofia.app.ShapeScreen;
+
+// -------------------------------------------------------------------------
+/**
+ *  Creates a ShapeScreen with tile objects in a 7x11 grid. Responds to touch
+ *  events and displays a new level when appropriate.
+ *  @author crc1559
+ *  @author theKunz
+ *  @author zhinson
+ *  @version Nov 13, 2013
+ */
+public class BomberManScreen extends ShapeScreen
+{
+    private Board board;
+
+
+    public void initialize()
+    {
+        board = new Board();
+        int cellWidth = (int)getWidth()/7;
+        int cellHeight = (int)getHeight()/11;
+        int x = 0;
+        for (int i = 0; i < 7; i++)
+        {
+            int y = 0;
+            for (int k = 0; k < 11; k++)
+            {
+                Tile tile =
+                    new Tile(x, y, x + cellWidth, y + cellHeight);
+                y += cellWidth;
+                this.add(tile);
+            }
+            x += cellHeight;
+        }
+    }
+
+}
