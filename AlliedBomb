@@ -144,6 +144,11 @@ public class AlliedBomb
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Checks to see if the surrounding cells are of CellType DEBRIS. If so,
+     * the bomb destroys the wall and makes it a path.
+     */
     public void helpExplode()
     {
         if (Board.cells[location.x()][location.y()] == CellTypes.DEBRIS)
