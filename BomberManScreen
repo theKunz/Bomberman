@@ -27,8 +27,9 @@ public class BomberManScreen extends ShapeScreen
             int y = 0;
             for (int k = 0; k < 11; k++)
             {
+                Location loc = new Location(x, y);
                 Tile tile =
-                    new Tile(x, y, x + cellWidth, y + cellHeight);
+                    new Tile(x, y, x + cellWidth, y + cellHeight, loc);
                 y += cellWidth;
                 this.add(tile);
             }
