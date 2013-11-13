@@ -3,11 +3,25 @@ package cs2114.bomberman;
 import cs2114.bomberman.BoardCell.CellTypes;
 
 
+// -------------------------------------------------------------------------
+/**
+ *  The model of the BomberMan program. This class creates a 2D array of cell
+ *  types and allows us to set and get these values.
+ *
+ *  @author zhinson
+ *  @author theKunz
+ *  @author crc1559
+ *  @version Nov 12, 2013
+ */
 public class Board
 {
     private CellTypes[][] cells;
     private CellTypes path = CellTypes.PATH;
 
+    // ----------------------------------------------------------
+    /**
+     * Creates a 7x11 2-D array list that stores all of the cell types.
+     */
     public Board()
     {
         cells = new CellTypes[7][11];
@@ -21,11 +35,23 @@ public class Board
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Returns the cell at the location provided.
+     * @param loc - the location of the cell you are getting.
+     * @return the type of cell at location. Could be Wall, debris, or invalid.
+     */
     public CellTypes getCell(Location loc)
     {
         return cells[loc.x()][loc.y()];
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Sets the cell at loc to type cell.
+     * @param loc - the location of the cell you are setting.
+     * @param cell - the type of cell this loc will be set to.
+     */
     public void setCell(Location loc, CellTypes cell)
     {
         if (loc != null)
@@ -33,4 +59,5 @@ public class Board
             cells[loc.x()][loc.y()] = cell;
         }
     }
+
 }
