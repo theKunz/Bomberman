@@ -14,9 +14,14 @@ public class BomberMan
 {
     private AlliedBomb bomb;
     private Location loc;
-    private int time;
-    private int radius;
-    private PowerUp power;
+    /**
+     * The amount of time until a bomb explodes in steps/seconds.
+     */
+    public static int time;
+    /**
+     * The number of squares exploded from the bomb in all compass directions.
+     */
+    public static int radius;
 
     // ----------------------------------------------------------
     /**
@@ -77,19 +82,20 @@ public class BomberMan
         }
     }
 
-    public void powerUp()
+
+    public void powerUp(PowerUp power)
     {
-        if (power = timeInc)
+        if (power.getData() == 0)
         {
             time = 4;
         }
-        else if (power = radInc)
+        else if (power.getData() == 1)
         {
-
+            radius = 3;
         }
-        else if (power = shield)
+        else if (power.getData() == 2)
         {
-
+            //adds a shield somehow?
         }
     }
     // ----------------------------------------------------------
