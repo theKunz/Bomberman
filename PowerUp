@@ -1,0 +1,12 @@
+package cs2114.bomberman;
+
+public class PowerUp
+{
+
+  public PowerUp()
+  {
+
+  }
+
+
+}
