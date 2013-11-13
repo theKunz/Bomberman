@@ -137,6 +137,9 @@ public class AlliedBomb
         }
     }
 
+    
+    
+    
     /**
      * returns x
      * @return x x loc
