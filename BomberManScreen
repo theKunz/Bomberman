@@ -1,114 +1,37 @@
 package cs2114.bomberman;
 
+import sofia.app.ShapeScreen;
+
 // -------------------------------------------------------------------------
 /**
- *  Initializes a BomberMan that walks around dropping bombs and picking up
- *  power ups. He has unlimited bombs and attempts to destroy all enemies.
- *
+ *  Creates a ShapeScreen with tile objects in a 7x11 grid. Responds to touch
+ *  events and displays a new level when appropriate.
  *  @author crc1559
- *  @author zhinson
  *  @author aaronk1
- *  @version Nov 12, 2013
+ *  @author zhinson
+ *  @version Nov 13, 2013
  */
-public class BomberMan
+public class BomberManScreen extends ShapeScreen
 {
-    private Location loc;
-    /**
-     * The amount of time until a bomb explodes in steps/seconds.
-     */
-    public static int time;
-    /**
-     * The number of squares exploded from the bomb in all compass directions.
-     */
-    public static int radius;
-
-    // ----------------------------------------------------------
-    /**
-     * Create a new BomberMan object.
-     */
-    public BomberMan()
+    public void initialize()
     {
-        loc = new Location(0, 0);
-        time = 3;
-        radius = 1;
-    }
-
-    // ----------------------------------------------------------
-    /**
-     * Changes the BomberMan's location to one higher on the grid if possible.
-     */
-    public void moveUp()
-    {
-        if (loc.y() > 0)
+        new Board();
+        int cellWidth = (int)getWidth()/7;
+        int cellHeight = (int)getHeight()/11;
+        int x = 0;
+        for (int i = 0; i < 7; i++)
         {
-            loc = new Location(loc.x(), loc.y() - 1);
+            int y = 0;
+            for (int k = 0; k < 11; k++)
+            {
+                Location loc = new Location(x, y);
+                Tile tile =
+                    new Tile(x, y, x + cellWidth, y + cellHeight, loc);
+                y += cellWidth;
+                this.add(tile);
+            }
+            x += cellHeight;
         }
-    }
-
-    // ----------------------------------------------------------
-    /**
-     * Changes the BomberMan's location to one lower on the grid if possible.
-     */
-    public void moveDown()
-    {
-        if (loc.y() < 7)
-        {
-            loc = new Location(loc.x(), loc.y() + 1);
-        }
-    }
-
-    // ----------------------------------------------------------
-    /**
-     * Changes the BomberMan's location one to the left if possible.
-     */
-    public void moveLeft()
-    {
-        if (loc.x() > 0)
-        {
-            loc = new Location(loc.x() - 1, loc.y());
-        }
-    }
-
-    // ----------------------------------------------------------
-    /**
-     * Changes the BomberMan's location one to the right if possible.
-     */
-    public void moveRight()
-    {
-        if (loc.x() < 11)
-        {
-            loc = new Location(loc.x() + 1, loc.y());
-        }
-    }
-
-
-    // ----------------------------------------------------------
-    /**
-     * Creates a power up of type power and puts it on the screen
-     * @param power the type of powerup
-     */
-    public void powerUp(PowerUp power)
-    {
-        if (power.getData() == 0)
-        {
-            time = 4;
-        }
-        else if (power.getData() == 1)
-        {
-            radius = 3;
-        }
-        else if (power.getData() == 2)
-        {
-            //adds a shield somehow?
-        }
-    }
-    // ----------------------------------------------------------
-    /**
-     * Plants a bomb at BomberMan's current location.
-     */
-    public void plantBomb()
-    {
-        new AlliedBomb(loc.x(), loc.y(), time, radius);
     }
 
 }
