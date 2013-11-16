@@ -1,13 +1,16 @@
 package cs2114.bomberman;
 
+import sofia.util.Random;
 import cs2114.bomberman.BoardCell.CellTypes;
 
 // -------------------------------------------------------------------------
 /**
  *  The enemy that will walk around randomly and try to kill bomberman
  *
- *  @author Aaron
- *  @version Nov 12, 2013
+ *  @author crc1559
+ *  @author zhinson
+ *  @author aaronk1
+ *  @version 11.12.2013
  */
 public class Enemy
 {
@@ -18,6 +21,7 @@ public class Enemy
     /**
      * Constructor, sets an enemy at the location
      * @param startLocation
+     * @param bo the board we are accessing.
      */
     public Enemy(Location startLocation, Board bo)
     {
@@ -28,7 +32,7 @@ public class Enemy
     * returns either null or a Location. The Screen will then read the
     * returned action accordingly. A null return will have the enemy do nothing
     * With a location return, the screen will move the enemy to the new
-    * location. If the location is its current position, it will drop a 
+    * location. If the location is its current position, it will drop a
     * bomb.
     * @return The randomly determined action
     */
