@@ -9,7 +9,7 @@ package cs2114.bomberman;
  *
  * @author zhinson
  * @author crc1559
- * @author theKunz
+ * @author aaronk1
  * @version 11.12.2013
  */
 public class Location
