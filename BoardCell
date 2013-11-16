@@ -1,12 +1,42 @@
 package cs2114.bomberman;
 
+// -------------------------------------------------------------------------
+/**
+ *  Write a one-sentence summary of your class here.
+ *  Follow it with additional details about its purpose, what abstraction
+ *  it represents, and how to use it.
+ *
+ *  @author crc1559
+ *  @author zhinson
+ *  @author aaronk1
+ *  @version Nov 15, 2013
+ */
 public class BoardCell
 {
+    // -------------------------------------------------------------------------
+    /**
+     *  The cell types for each wall, debris, path, or invalid celltype.
+     */
     public enum CellTypes
     {
+        /**
+         * Enum that stands for the type of cell that contains a wall.
+         */
         WALL,
+
+        /**
+         * Enum that stands for the type of cell that contains a debris wall.
+         */
         DEBRIS,
+
+        /**
+         * Enum that stands for the type of cell that contains a path.
+         */
         PATH,
+
+        /**
+         * Enum that stands for the type of cell that contains an invalid cell.
+         */
         INVALID
     }
 }
