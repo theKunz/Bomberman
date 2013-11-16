@@ -2,22 +2,40 @@ package cs2114.bomberman;
 
 import sofia.util.Random;
 
+// -------------------------------------------------------------------------
+/**
+ *  Creates a powerUp object that can be a sheild, radius increase, or time
+ *  increase.
+ *
+ *  @author crc1559
+ *  @author zhinson
+ *  @author aaronk1
+ *  @version 11.12.13
+ */
 public class PowerUp
 {
 
-    private Location loc;
     private int x;
     private int y;
     private int type;
 
+    // ----------------------------------------------------------
+    /**
+     * Create a new PowerUp object.
+     */
     public PowerUp()
     {
         type = Random.generator().nextInt(3);
         x = Random.generator().nextInt(7);
         y = Random.generator().nextInt(11);
-        loc = new Location(x, y);
+        new Location(x, y);
     }
 
+    // ----------------------------------------------------------
+    /**
+     * This method returns what kind of powerUp an object is.
+     * @return the type of powerup the object is.
+     */
     public int getData()
     {
         return type;
