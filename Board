@@ -9,7 +9,7 @@ import cs2114.bomberman.BoardCell.CellTypes;
  *  types and allows us to set and get these values.
  *
  *  @author zhinson
- *  @author theKunz
+ *  @author aaronk1
  *  @author crc1559
  *  @version Nov 12, 2013
  */
