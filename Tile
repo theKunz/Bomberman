@@ -7,8 +7,10 @@ import sofia.graphics.RectangleShape;
 /**
  * wooo
  *
- * @author Aaron Kunzer (aaronk1)
- * @version Oct 10, 2013
+ * @author crc1559
+ * @author zhinson
+ * @author aaronk1
+ * @version 10.10.13
  */
 public class Tile extends RectangleShape
 {
