@@ -1,6 +1,29 @@
-package com.proj3.bomberman;
+package cs2114.bomberman;
 
+// -------------------------------------------------------------------------
+/**
+ * Creates a enemybomb that will not destroy the enemy if exploded on it,
+ * but will destroy the bomberman.
+ *
+ *  @author crc1559
+ *  @author zhinson
+ *  @author aaronk1
+ *  @version Nov 15, 2013
+ */
 public class EnemyBomb extends AlliedBomb
 {
+
+    // ----------------------------------------------------------
+    /**
+     * Create a new EnemyBomb object.
+     * @param xLoc the x location of the bomberman.
+     * @param yLoc the y location of the bomberman.
+     * @param fuse the time for the bomb to explode.
+     * @param radius the distance the bomb explodes.
+     */
+    public EnemyBomb(int xLoc, int yLoc, int fuse, int radius)
+    {
+        super(xLoc, yLoc, fuse, radius);
+    }
 
 }
