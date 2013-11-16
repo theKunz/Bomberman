@@ -10,7 +10,7 @@ import cs2114.bomberman.BoardCell.CellTypes;
  *
  * @author zhinson
  * @author crc1559
- * @author theKunz
+ * @author aaronk1
  * @version 11.12.2013
  */
 
@@ -41,8 +41,8 @@ public class AlliedBomb
 
     /**
      * constructor for the class
-     * @param x takes an x coordinate
-     * @param y takes a y coordinate
+     * @param xLoc takes an x coordinate
+     * @param yLoc takes a y coordinate
      * @param fuse takes a fuse length
      * @param radius takes a bomb explosion length
      */
@@ -102,6 +102,10 @@ public class AlliedBomb
         explodeWest();
     }
 
+    // ----------------------------------------------------------
+    /**
+     * Destroys the debris wall to the north of it if there is one.
+     */
     public void explodeNorth()
     {
         for (int i = 1; i <= explosionRadius; i++)
@@ -117,6 +121,9 @@ public class AlliedBomb
 
     }
 
+    /**
+     * Destroys the debris wall to the south of it if there is one.
+     */
     public void explodeSouth()
     {
         for (int i = 1; i <= explosionRadius; i++)
@@ -126,6 +133,9 @@ public class AlliedBomb
         }
     }
 
+    /**
+     * Destroys the debris wall to the east of it if there is one.
+     */
     public void explodeEast()
     {
         for (int i = 1; i <= explosionRadius; i++)
@@ -135,6 +145,9 @@ public class AlliedBomb
         }
     }
 
+    /**
+     * Destroys the debris wall to the west of it if there is one.
+     */
     public void explodeWest()
     {
         for (int i = 1; i <= explosionRadius; i++)
