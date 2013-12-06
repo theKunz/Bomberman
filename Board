@@ -5,13 +5,13 @@ import cs2114.bomberman.BoardCell.CellTypes;
 
 // -------------------------------------------------------------------------
 /**
- *  The model of the BomberMan program. This class creates a 2D array of cell
- *  types and allows us to set and get these values.
+ * The model of the BomberMan program. This class creates a 2D array of cell
+ * types and allows us to set and get these values.
  *
- *  @author zhinson
- *  @author aaronk1
- *  @author crc1559
- *  @version Nov 12, 2013
+ * @author zhinson
+ * @author aaronk1
+ * @author crc1559
+ * @version Nov 12, 2013
  */
 public class Board
 {
@@ -20,7 +20,6 @@ public class Board
      * AlliedBomb.
      */
     public static CellTypes[][] cells;
-    private CellTypes path = CellTypes.PATH;
 
     // ----------------------------------------------------------
     /**
@@ -29,12 +28,41 @@ public class Board
     public Board()
     {
         cells = new CellTypes[7][11];
+        //fills the grid of cell types
         for (int i = 0; i < 7; i++)
         {
 
             for (int k = 0; k < 11; k++)
             {
-                cells[i][k] = path;
+                cells[i][k] = CellTypes.PATH;
+            }
+        }
+        //sets the immovable walls (and some destrucable walls)
+        for (int i = 1; i <= 5; i += 2)
+        {
+            for (int j = 1; j <= 9; j += 2)
+            {
+                cells[i][j] = CellTypes.WALL;
+            }
+
+            if (i == 1 || i == 5)
+            {
+                for (int k = 2; k <=8; k+= 2)
+                {
+                    cells[i][k] = CellTypes.DEBRIS;
+                }
+            }
+        }
+        //sets remaining destructable walls
+        cells[0][5] = CellTypes.DEBRIS;
+        cells[6][5] = CellTypes.DEBRIS;
+        cells[3][0] = CellTypes.DEBRIS;
+        cells[3][10] = CellTypes.DEBRIS;
+        for (int i = 2; i <= 4; i += 2)
+        {
+            for (int h = 1; h <=9; h += 2)
+            {
+                cells[i][h] = CellTypes.DEBRIS;
             }
         }
     }
