@@ -24,9 +24,9 @@ public class Location
      * as an object
      *
      * @param xpos
-     *            horizontal position
+     * horizontal position
      * @param ypos
-     *            vertical position (note: top = 0, bot = n)
+     * vertical position (note: top = 0, bot = n)
      */
     public Location(int xpos, int ypos)
     {
@@ -163,7 +163,7 @@ public class Location
     /**
      * this tests two locations to see if they are the same
      * @param compared
-     *            The location object to be compared
+     * The location object to be compared
      * @return true if the x and y coordinates are the same
      */
     public boolean equals(Object compared)
