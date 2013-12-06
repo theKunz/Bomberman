@@ -5,12 +5,12 @@ import cs2114.bomberman.BoardCell.CellTypes;
 
 // -------------------------------------------------------------------------
 /**
- *  The enemy that will walk around randomly and try to kill bomberman
+ * The enemy that will walk around randomly and try to kill bomberman
  *
- *  @author crc1559
- *  @author zhinson
- *  @author aaronk1
- *  @version 11.12.2013
+ * @author crc1559
+ * @author zhinson
+ * @author aaronk1
+ * @version 11.12.2013
  */
 public class Enemy
 {
@@ -26,6 +26,7 @@ public class Enemy
     public Enemy(Location startLocation, Board bo)
     {
         loc = startLocation;
+        board = bo;
     }
 
     /**
@@ -38,6 +39,8 @@ public class Enemy
     */
     public Location action()
     {
+        //TODO: edit this so that an action is guarenteed a.k.a we should
+        //never have to return null.
         Random rand = Random.generator();
         int num = (int)Math.floor(rand.nextDouble(0, 5));
         switch (num)
@@ -71,6 +74,7 @@ public class Enemy
                 }
                 return null;
             case(4):
+                //for bomb placement
                 return loc;
         }
         return null;
@@ -94,5 +98,15 @@ public class Enemy
     public void setLocation(Location locs)
     {
         loc = locs;
+    }
+
+    /**
+     * for updating the status of the board, such as when bombs go off and
+     * edit DEBRIS to PATH
+     * @param newBoard the new updated board
+     */
+    public void updateBoard(Board newBoard)
+    {
+        board = newBoard;
     }
 }
