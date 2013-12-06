@@ -46,7 +46,7 @@ public class Tile extends RectangleShape
         return loc;
     }
     /**
-     * returns the y-coordinate center of the tile
+     * returns the y-coordinate pixel center of the tile
      * @return y-coord in float form
      */
     public float getCenterPointY()
@@ -54,7 +54,7 @@ public class Tile extends RectangleShape
         return (this.getHeight() * loc.y() + (this.getHeight() / 2));
     }
     /**
-     * returns the x-coordinate center of the tile
+     * returns the x-coordinate pixel center of the tile
      * @return x-coord in float form
      */
     public float getCenterPointX()
