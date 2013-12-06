@@ -2,13 +2,13 @@ package cs2114.bomberman;
 
 // -------------------------------------------------------------------------
 /**
- *  Initializes a BomberMan that walks around dropping bombs and picking up
- *  power ups. He has unlimited bombs and attempts to destroy all enemies.
+ * Initializes a BomberMan that walks around dropping bombs and picking up
+ * power ups. He has unlimited bombs and attempts to destroy all enemies.
  *
- *  @author crc1559
- *  @author zhinson
- *  @author theKunz
- *  @version Nov 12, 2013
+ * @author crc1559
+ * @author zhinson
+ * @author theKunz
+ * @version Nov 12, 2013
  */
 public class BomberMan
 {
@@ -105,6 +105,15 @@ public class BomberMan
     public void plantBomb()
     {
         bomb = new AlliedBomb(loc.x(), loc.y(), time, radius);
+    }
+
+    /**
+     * getter for the stored location object
+     * @return the location of bomberman
+     */
+    public Location getCoord()
+    {
+        return loc;
     }
 
 }
