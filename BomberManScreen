@@ -1,6 +1,6 @@
-package cs2114.bomberman;
+package com.proj3.bomberman;
 
-
+import sofia.graphics.Shape;
 import java.util.HashMap;
 import sofia.graphics.Color;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import sofia.graphics.OvalShape;
 import sofia.app.ShapeScreen;
 import java.util.Iterator;
 import com.proj3.bomberman.BoardCell.CellTypes;
+import sofia.graphics.RectangleShape;
 
 // -------------------------------------------------------------------------
 /**
@@ -22,21 +23,23 @@ public class BomberManScreen extends ShapeScreen
 {
 
     private Tile[][] grid;
-    private Tile tempTile; //can be used anywhere for temporary storage
+    private Tile tempTile;
     private Board board;
     private BomberMan bomberman;
     private ArrayList<Enemy> enemies;
     private ArrayList<OvalShape> cpus;
     private ArrayList<Bomb> bombs;
+    private ArrayList<RectangleShape> expImages;
     private HashMap<EnemyBomb, OvalShape> bombImages;
-    private OvalShape player; //temporary placeholder for actual images
+    private OvalShape player;
     private OvalShape playerBomb;
     private int numEnemies = 1;
     private Iterator<Bomb> iter;
+    private Iterator<RectangleShape> rectIter;
+
 
     public void initialize()
     {
-
         grid = new Tile[7][11];
         board = new Board();
         float cellWidth = getWidth()/7;
@@ -80,6 +83,7 @@ public class BomberManScreen extends ShapeScreen
         }
         bombs = new ArrayList<Bomb>();
         bombImages = new HashMap<EnemyBomb, OvalShape>();
+        expImages = new ArrayList<RectangleShape>();
     }
 
     /**
@@ -90,6 +94,7 @@ public class BomberManScreen extends ShapeScreen
      */
     public void onTouchDown(float x, float y)
     {
+        removeExplosionImages();
         if (bomberman != null)
         {
             boolean occupied = false;
@@ -217,15 +222,6 @@ public class BomberManScreen extends ShapeScreen
         }
     }
 
-    // ----------------------------------------------------------
-    /**
-     * This will begin a new round upon being clicked. Has been coded so that
-     * the button can only be clicked when a round has been won.
-     */
-    public void nextLevelClicked()
-    {
-        initialize();
-    }
 
     /**
      * designed to check to see if a bomb should explode
@@ -244,6 +240,7 @@ public class BomberManScreen extends ShapeScreen
                     setTileColors();
                     int bombx = ((AlliedBomb)bomb).getX();
                     int bomby = ((AlliedBomb)bomb).getY();
+                    addExplosionImages(((AlliedBomb)bomb).getX(), ((AlliedBomb)bomb).getY());
 
                     //kill any enemies in blast radius
                     Iterator<Enemy> enemIter = enemies.iterator();
@@ -327,6 +324,7 @@ public class BomberManScreen extends ShapeScreen
                 setTileColors();
                 if (((EnemyBomb)bomb).hasExploded())
                 {
+                    addExplosionImages(((EnemyBomb)bomb).getX(), ((EnemyBomb)bomb).getY());
                     int bombx = ((EnemyBomb)bomb).getX();
                     int bomby = ((EnemyBomb)bomb).getY();
                     //enemy bombs don't kill other enemies, just bomberman
@@ -418,5 +416,84 @@ public class BomberManScreen extends ShapeScreen
             numEnemies = 1;
         }
         initialize();
+    }
+
+    private void addExplosionImages(int x, int y)
+    {
+        System.out.println(x + " " + y);
+        tempTile = grid[x][y];
+        float top = tempTile.getHeight() * y;
+        float bottom = tempTile.getHeight() * (y + 1);
+        float left = tempTile.getWidth() * x;
+        float right = tempTile.getWidth() * (y + 1);
+        RectangleShape rect = new RectangleShape(left, top, right, bottom);
+        rect.setFillColor(Color.purple);
+        expImages.add(rect);
+        add(rect);
+        if (x > 0)
+        {
+            System.out.println("reached 1");
+            tempTile = grid[x - 1][y];
+            top = tempTile.getHeight() * y;
+            bottom = tempTile.getHeight() * (y + 1);
+            left = tempTile.getWidth() * (x - 1);
+            right = tempTile.getWidth() * (x);
+            rect = new RectangleShape(left, top, right, bottom);
+            rect.setFillColor(Color.purple);
+            expImages.add(rect);
+            add(rect);
+            System.out.println(top + " " + bottom + " " + right + " " + " " + left);
+        }
+        if (x < 6)
+        {
+            System.out.println("reached 2");
+            tempTile = grid[x + 1][y];
+            top = tempTile.getHeight() * y;
+            bottom = tempTile.getHeight() * (y + 1);
+            left = tempTile.getWidth() * (x + 1);
+            right = tempTile.getWidth() * (x + 2);
+            rect = new RectangleShape(left, top, right, bottom);
+            rect.setFillColor(Color.purple);
+            expImages.add(rect);
+            add(rect);
+            System.out.println(top + " " + bottom + " " + right + " " + " " + left);
+        }
+        if (y > 0)
+        {
+            System.out.println("reached 3");
+            tempTile = grid[x][y - 1];
+            top = tempTile.getHeight() * (y - 1);
+            bottom = tempTile.getHeight() * (y);
+            left = tempTile.getWidth() * x;
+            right = tempTile.getWidth() * (x + 1);
+            rect = new RectangleShape(left, top, right, bottom);
+            rect.setFillColor(Color.purple);
+            expImages.add(rect);
+            add(rect);
+            System.out.println(top + " " + bottom + " " + right + " " + " " + left);
+        }
+        if (y < 10)
+        {
+            System.out.println("reached 4");
+            tempTile = grid[x][y + 1];
+            top = tempTile.getHeight() * (y + 1);
+            bottom = tempTile.getHeight() * (y + 2);
+            left = tempTile.getWidth() * x;
+            right = tempTile.getWidth() * (x + 1);
+            rect = new RectangleShape(left, top, right, bottom);
+            rect.setFillColor(Color.purple);
+            expImages.add(rect);
+            add(rect);
+            System.out.println(top + " " + bottom + " " + right + " " + " " + left);
+        }
+    }
+
+    private void removeExplosionImages()
+    {
+        for (RectangleShape rect : expImages)
+        {
+            remove(rect);
+        }
+        expImages.clear();
     }
 }
