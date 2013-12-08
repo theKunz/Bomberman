@@ -1,0 +1,58 @@
+package cs114.bomberman;
+
+import cs2114.bomberman.BoardCell.CellTypes;
+// -------------------------------------------------------------------------
+/**
+ *  Tests for the Board class
+ *
+ *  @author Aaron
+ *  @version Dec 8, 2013
+ */
+public class BoardTest extends student.TestCase
+{
+    private Board board;
+
+    /**
+     * sets up any common variables, structures, and algorithms
+     */
+    public void setUp()
+    {
+        board = new Board();
+    }
+
+    /**
+     * tests the getCell() method
+     */
+    public void testGetCell()
+    {
+        Location path = new Location(0, 0);
+        Location wall = new Location(1, 3);
+        Location debris = new Location(2, 1);
+
+        assertEquals(board.getCell(path), CellTypes.PATH);
+        assertEquals(board.getCell(wall), CellTypes.WALL);
+        assertEquals(board.getCell(debris), CellTypes.DEBRIS);
+    }
+
+    /**
+     * tests the setCell() method
+     */
+    public void testSetCell()
+    {
+        Location newPath = new Location(1, 1);
+        Location newWall = new Location(0, 1);
+        Location newDebris = new Location(1, 0);
+
+        board.setCell(newPath, CellTypes.PATH);
+        board.setCell(newWall, CellTypes.WALL);
+        board.setCell(newDebris, CellTypes.DEBRIS);
+
+        assertEquals(board.getCell(newPath), CellTypes.PATH);
+        assertEquals(board.getCell(newWall), CellTypes.WALL);
+        assertEquals(board.getCell(newDebris), CellTypes.DEBRIS);
+
+        //imagine null was supposed to be Location(3, 1), originally WALL
+        board.setCell(null, CellTypes.PATH);
+        assertEquals(board.getCell(new Location(3, 1)), CellTypes.WALL);
+    }
+}
