@@ -1,29 +1,142 @@
 package cs2114.bomberman;
 
+import cs2114.bomberman.BoardCell.CellTypes;
+
 // -------------------------------------------------------------------------
 /**
  * Creates a enemybomb that will not destroy the enemy if exploded on it,
  * but will destroy the bomberman.
  *
- *  @author crc1559
- *  @author zhinson
- *  @author aaronk1
- *  @version Nov 15, 2013
+ * @author crc1559
+ * @author zhinson
+ * @author aaronk1
+ * @version Nov 15, 2013
  */
-public class EnemyBomb extends AlliedBomb
+public class EnemyBomb implements Bomb
 {
+    private int fuseRemaining;
+    private boolean hasExploded;
+    private int x;
+    private int y;
 
-    // ----------------------------------------------------------
     /**
-     * Create a new EnemyBomb object.
-     * @param xLoc the x location of the bomberman.
-     * @param yLoc the y location of the bomberman.
-     * @param fuse the time for the bomb to explode.
-     * @param radius the distance the bomb explodes.
+     * constructor for the class
+     * @param xLoc takes an x coordinate
+     * @param yLoc takes a y coordinate
+     * @param fuse takes a fuse length
+     * @param radius takes a bomb explosion length
      */
     public EnemyBomb(int xLoc, int yLoc, int fuse, int radius)
     {
-        super(xLoc, yLoc, fuse, radius);
+        if (x >= 0 && y >= 0 && y < 11 && x < 7 &&
+            //does bounds checking
+            fuse >= 2 && radius >= 1)
+            //two more checks
+        {
+            fuseRemaining = fuse;
+            hasExploded = false;
+            x = xLoc;
+            y = yLoc;
+        }
+        //i don't ever want my maxFuse to be less than 2
+        // this allows bomberman to move away safely from his bombs
+        //or my radius to be less than 1
+        // this allows bombs to actually destroy things
     }
 
+    /**
+     * tracks the number of steps until explosionsssssssss!
+     * @param board to explode on
+     */
+    public void countdown(Board board)
+    {
+        if (fuseRemaining > 1)
+        {
+        fuseRemaining--;
+        //decrement the time remaining until the explosion
+        }
+        else if (fuseRemaining <= 1 && !hasExploded())
+            //if fuse remaining is 1 and this is called, go boom
+            //but don't go boom more than once
+        {
+            fuseRemaining--;
+            explode(board);
+        }
+    }
+
+    /**
+     * returns if the bomb has exploded or not
+     * @return true if explode has been called false if not
+     */
+    public boolean hasExploded()
+    {
+        return hasExploded;
+    }
+
+    /**
+     * when countdown has expired, go boom! This only changes the board!
+     * exploding a character must be done in the screen
+     * @param board to explode on
+     */
+    public void explode(Board board)
+    {
+        hasExploded = true;
+        if (x > 0)
+        {
+            //west explosion
+            if (board.getCell(new Location(x - 1, y)) == CellTypes.DEBRIS)
+            {
+                board.setCell(new Location(x - 1, y), CellTypes.PATH);
+            }
+        }
+        if (x < 6)
+        {
+            //east explosion
+            if (board.getCell(new Location(x + 1, y)) == CellTypes.DEBRIS)
+            {
+                board.setCell(new Location(x + 1, y), CellTypes.PATH);
+            }
+        }
+        if (y < 10)
+        {
+            //south explosion
+            if (board.getCell(new Location(x, y + 1)) == CellTypes.DEBRIS)
+            {
+                board.setCell(new Location(x, y + 1), CellTypes.PATH);
+            }
+        }
+        if (y > 0)
+        {
+            //north explosion
+            if (board.getCell(new Location(x, y - 1)) == CellTypes.DEBRIS)
+            {
+                board.setCell(new Location(x, y - 1), CellTypes.PATH);
+            }
+        }
+    }
+
+    /**
+     * returns the time remaining before explosiong
+     * @return an int
+     */
+    public int getCountdown()
+    {
+        return fuseRemaining;
+    }
+    /**
+     * returns x
+     * @return x x loc
+     */
+    public int getX()
+    {
+        return x;
+    }
+    /**
+     * returns y
+     * @return y y loc
+     */
+    public int getY()
+    {
+        return y;
+    }
 }
