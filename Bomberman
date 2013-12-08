@@ -12,7 +12,6 @@ package cs2114.bomberman;
  */
 public class BomberMan
 {
-    private AlliedBomb bomb;
     private Location loc;
     /**
      * The amount of time until a bomb explodes in steps/seconds.
@@ -52,7 +51,7 @@ public class BomberMan
      */
     public void moveDown()
     {
-        if (loc.y() < 7)
+        if (loc.y() < 11)
         {
             loc = new Location(loc.x(), loc.y() + 1);
         }
@@ -76,36 +75,36 @@ public class BomberMan
      */
     public void moveRight()
     {
-        if (loc.x() < 11)
+        if (loc.x() < 7)
         {
             loc = new Location(loc.x() + 1, loc.y());
         }
     }
 
 
-    public void powerUp(PowerUp power)
-    {
-        if (power.getData() == 0)
-        {
-            time = 4;
-        }
-        else if (power.getData() == 1)
-        {
-            radius = 3;
-        }
-        else if (power.getData() == 2)
-        {
-            //adds a shield somehow?
-        }
-    }
+    // public void powerUp(PowerUp power)
+    // {
+    //      if (power.getData() == 0)
+    //      {
+    //           time = 4;
+    //       }
+    //       else if (power.getData() == 1)
+    //       {
+    //           radius = 3;
+    //       }
+    //       else if (power.getData() == 2)
+    //       {
+    //           //adds a shield somehow?
+    //       }
+    // }
     // ----------------------------------------------------------
     /**
      * Plants a bomb at BomberMan's current location.
      */
-    public void plantBomb()
-    {
-        bomb = new AlliedBomb(loc.x(), loc.y(), time, radius);
-    }
+    //public void plantBomb()
+    //{
+    //    bomb = new AlliedBomb(loc.x(), loc.y(), time, radius);
+   // }
 
     /**
      * getter for the stored location object
@@ -116,4 +115,12 @@ public class BomberMan
         return loc;
     }
 
+    /**
+     * returns the time, for powerups purposes
+     * @return time of use
+     */
+    public int getTime()
+    {
+        return time;
+    }
 }
