@@ -1,0 +1,38 @@
+package cs2114.bomberman;
+
+// -------------------------------------------------------------------------
+/**
+ *  Tests the Tile class
+ *
+ *  @author Aaron
+ *  @version Dec 8, 2013
+ */
+public class TileTest extends student.TestCase
+{
+    private Tile tile1;
+
+    /**
+     * sets up any common variables, structures, and algorithms for testings
+     */
+    public void setUp()
+    {
+        tile1 = new Tile(10.0f, 20.0f, 30.0f, 40.0f, new Location(2, 3));
+    }
+
+    /**
+     * tests if getCoord() returns the proper location
+     */
+    public void testGetCoord()
+    {
+        assertTrue(tile1.getCoord().equals(new Location(2, 3)));
+    }
+
+    /**
+     * tests the getCenterPoint methods
+     */
+    public void testGetCenterPoints()
+    {
+        assertEquals(50.0f, tile1.getCenterPointX(), 0.01);
+        assertEquals(70.0f, tile1.getCenterPointY(), 0.01);
+    }
+}
