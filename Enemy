@@ -1,7 +1,7 @@
 package cs2114.bomberman;
 
 import sofia.util.Random;
-import cs2114.bomberman.BoardCell.CellTypes;
+import com.proj3.bomberman.BoardCell.CellTypes;
 
 // -------------------------------------------------------------------------
 /**
@@ -16,6 +16,8 @@ public class Enemy
 {
     private Location loc;
     private Board board;
+    private boolean hasPlacedBomb;
+    private int countdownToNewBomb;
 
     // ----------------------------------------------------------
     /**
@@ -27,6 +29,30 @@ public class Enemy
     {
         loc = startLocation;
         board = bo;
+        hasPlacedBomb = false;
+        countdownToNewBomb = 0;
+    }
+
+    /**
+     * this is here to ensure that an action is carried out and null is never
+     * returned as a movement
+     * @return new location or bomb location
+     */
+    public Location action()
+    {
+        Location oldLocation = new Location (loc.x(), loc.y());
+        Location retLoc = getAction();
+        while (retLoc == null)
+        {
+            retLoc = getAction();
+        }
+        //ensures countdown only occurs when enemy moves and not when
+        //enemy placed the bomb as well
+        if (!oldLocation.equals(loc))
+        {
+            countDown();
+        }
+        return retLoc;
     }
 
     /**
@@ -37,44 +63,51 @@ public class Enemy
     * bomb.
     * @return The randomly determined action
     */
-    public Location action()
+    private Location getAction()
     {
-        //TODO: edit this so that an action is guarenteed a.k.a we should
-        //never have to return null.
         Random rand = Random.generator();
         int num = (int)Math.floor(rand.nextDouble(0, 5));
         switch (num)
         {
             case (0):
-                if (board.getCell(loc.north()) == CellTypes.PATH)
+                if (board.getCell(loc.north()) == CellTypes.PATH
+                    && loc.y() > 0)
                 {
                     loc = new Location(loc.x(), loc.y() - 1);
                     return loc;
                 }
                 return null;
             case(1):
-                if (board.getCell(loc.south()) == CellTypes.PATH)
+                if (board.getCell(loc.south()) == CellTypes.PATH
+                    && loc.y() < 10)
                 {
                     loc = new Location(loc.x(), loc.y() + 1);
                     return loc;
                 }
                 return null;
             case(2):
-                if (board.getCell(loc.east()) == CellTypes.PATH)
+                if (board.getCell(loc.east()) == CellTypes.PATH
+                    && loc.x() < 6)
                 {
                     loc = new Location(loc.x() + 1, loc.y());
                     return loc;
                 }
                 return null;
             case(3):
-                if (board.getCell(loc.west()) == CellTypes.PATH)
+                if (board.getCell(loc.west()) == CellTypes.PATH
+                    && loc.x() > 0)
                 {
                     loc = new Location(loc.x() - 1, loc.y());
                     return loc;
                 }
                 return null;
             case(4):
-                //for bomb placement
+                if (hasPlacedBomb == true)
+                {
+                    return null;
+                }
+                hasPlacedBomb = true;
+                countdownToNewBomb = 3;
                 return loc;
         }
         return null;
@@ -109,4 +142,21 @@ public class Enemy
     {
         board = newBoard;
     }
+
+    private void countDown()
+    {
+        //decrement countdown if bomb has been placed
+        if (countdownToNewBomb > 0 && hasPlacedBomb)
+        {
+            countdownToNewBomb--;
+        }
+        //if it reaches 0, the bomb has then exploded and the enemy is
+        //able to place another bomb
+        if (countdownToNewBomb == 0 && hasPlacedBomb)
+        {
+            hasPlacedBomb = false;
+            countdownToNewBomb = 3;
+        }
+    }
+
 }
