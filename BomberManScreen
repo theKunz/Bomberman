@@ -1,10 +1,13 @@
 package cs2114.bomberman;
 
+
+import java.util.HashMap;
 import sofia.graphics.Color;
 import java.util.ArrayList;
 import sofia.graphics.OvalShape;
 import sofia.app.ShapeScreen;
-import cs2114.bomberman.BoardCell.CellTypes;
+import java.util.Iterator;
+import com.proj3.bomberman.BoardCell.CellTypes;
 
 // -------------------------------------------------------------------------
 /**
@@ -17,17 +20,23 @@ import cs2114.bomberman.BoardCell.CellTypes;
  */
 public class BomberManScreen extends ShapeScreen
 {
+
     private Tile[][] grid;
     private Tile tempTile; //can be used anywhere for temporary storage
     private Board board;
     private BomberMan bomberman;
     private ArrayList<Enemy> enemies;
     private ArrayList<OvalShape> cpus;
+    private ArrayList<Bomb> bombs;
+    private HashMap<EnemyBomb, OvalShape> bombImages;
     private OvalShape player; //temporary placeholder for actual images
+    private OvalShape playerBomb;
     private int numEnemies = 1;
+    private Iterator<Bomb> iter;
 
     public void initialize()
     {
+
         grid = new Tile[7][11];
         board = new Board();
         float cellWidth = getWidth()/7;
@@ -44,33 +53,9 @@ public class BomberManScreen extends ShapeScreen
                 grid[i][k] = tile;
             }
         }
-        /*improve some of the coloring, adds a white border to each tile for
-              visual clarity and sets fill colors acording to CellType
-          NOTE: setColor sets the border color
-          NOTE: setFillColor sets the color of the tile minus the border
-              if setFillColor is called without setColor, the border will be the
-              color of the fill
-        */
-        for (int i = 0; i < 7; i++)
-        {
-            for (int j = 0; j < 11; j++)
-            {
-                tempTile = grid[i][j];
-                tempTile.setColor(Color.white);
-                if (board.getCell(tempTile.getCoord()) == CellTypes.DEBRIS)
-                {
-                    tempTile.setFillColor(Color.lightSlateGray);
-                }
-                else if ((board.getCell(tempTile.getCoord()) == CellTypes.WALL))
-                {
-                    tempTile.setFillColor(Color.darkSlateGray);
-                }
-                else if ((board.getCell(tempTile.getCoord()) == CellTypes.PATH))
-                {
-                    tempTile.setFillColor(Color.rgb(0, 160, 0));
-                }
-            }
-        }
+
+        setTileColors();
+
         //add bomberman (the player) to the screen
         bomberman = new BomberMan();
         tempTile = grid[0][0];
@@ -93,6 +78,8 @@ public class BomberManScreen extends ShapeScreen
             cpus.get(i).setFillColor(Color.red);
             add(cpus.get(i));
         }
+        bombs = new ArrayList<Bomb>();
+        bombImages = new HashMap<EnemyBomb, OvalShape>();
     }
 
     /**
@@ -103,76 +90,333 @@ public class BomberManScreen extends ShapeScreen
      */
     public void onTouchDown(float x, float y)
     {
-        boolean occupied = false;
-        Tile tile =
-            getShapes().locatedAt(x, y).withClass(Tile.class).front();
-        //Step 1: Move bomberman. His action comes first.
-        Location locbomberman = bomberman.getCoord();
-        int tilex = tile.getCoord().x();
-        int tiley = tile.getCoord().y();
-        int bomberx = locbomberman.x();
-        int bombery = locbomberman.y();
-        for (Enemy enem : enemies)
+        if (bomberman != null)
         {
-            if (enem.getLocation().x() == tilex
-                && enem.getLocation().y() == tiley)
+            boolean occupied = false;
+            Tile tile =
+                getShapes().locatedAt(x, y).withClass(Tile.class).front();
+            //Step 1: Move bomberman. His action comes first.
+            Location locbomberman = bomberman.getCoord();
+            int tilex = tile.getCoord().x();
+            int tiley = tile.getCoord().y();
+            int bomberx = locbomberman.x();
+            int bombery = locbomberman.y();
+            //prevents movement onto enemies
+            for (Enemy enem : enemies)
             {
-                occupied = true;
-                //cut out of the for early if the location is occupied
-                break;
+                if (enem.getLocation().x() == tilex
+                    && enem.getLocation().y() == tiley)
+                {
+                    occupied = true;
+                    //cut out of the for loop early if the location is occupied
+                    break;
+                }
             }
-        }
-        if (board.getCell(tile.getCoord()) == CellTypes.PATH && !occupied)
-        {
-            if (tilex == bomberx && tiley == bombery + 1)
+            if (board.getCell(tile.getCoord()) == CellTypes.PATH && !occupied)
             {
-                bomberman.moveDown();
-                player.setPosition(tile.getCenterPointX(), tile.getCenterPointY());
-            }
-            else if (tilex == bomberx && tiley == bombery - 1)
-            {
-                bomberman.moveUp();
-                player.setPosition(tile.getCenterPointX(), tile.getCenterPointY());
-            }
-            else if (tilex == bomberx + 1 && tiley == bombery)
-            {
-                bomberman.moveRight();
-                player.setPosition(tile.getCenterPointX(), tile.getCenterPointY());
-            }
-            else if (tilex == bomberx - 1 && tiley == bombery)
-            {
-                bomberman.moveLeft();
-                player.setPosition(tile.getCenterPointX(), tile.getCenterPointY());
-            }
-        }
+                if (tilex == bomberx && tiley == bombery + 1)
+                {
+                    bomberman.moveDown();
+                    player.setPosition(tile.getCenterPointX(),
+                        tile.getCenterPointY());
+                }
+                else if (tilex == bomberx && tiley == bombery - 1)
+                {
+                    bomberman.moveUp();
+                    player.setPosition(tile.getCenterPointX(),
+                        tile.getCenterPointY());
+                }
+                else if (tilex == bomberx + 1 && tiley == bombery)
+                {
+                    bomberman.moveRight();
+                    player.setPosition(tile.getCenterPointX(),
+                        tile.getCenterPointY());
+                }
+                else if (tilex == bomberx - 1 && tiley == bombery)
+                {
+                    bomberman.moveLeft();
+                    player.setPosition(tile.getCenterPointX(),
+                        tile.getCenterPointY());
 
-        //Step 2: Have the enemies act
-        for (Enemy enem : enemies)
-        {
-            int i = 0;
-            Location loc = enem.action();
-            //this null check is temporary until action() is changed so that it
-            //can never return null
-            if (loc != null)
+                }
+                else if (tilex == bomberx && tiley == bombery)
+                {
+                    if (bombs.size() == 0)
+                    {
+                        addAlliedBomb(tile);
+                    }
+                    else
+                    {
+                        for (Bomb bomb : bombs)
+                        {
+                            if (bomb instanceof AlliedBomb)
+                            {
+                                //bomb has already been placed, not a legal move
+                                return;
+                            }
+                        }
+                        addAlliedBomb(tile);
+                    }
+                }
+                else
+                {
+                    //no action should be performed on the board since it was not
+                    //a legal move
+                    return;
+                }
+            }
+            else
             {
+                //not a legal move. No action performed
+                return;
+            }
+
+            //Step 2: Have the enemies act
+            for (Enemy enem : enemies)
+            {
+                //int i = 0;
+                Location oldLoc = enem.getLocation();
+                Location loc = enem.action();
                 tempTile = grid[loc.x()][loc.y()];
-                //TODO: place a bomb if location is original location before action
-                cpus.get(i).setPosition(tempTile.getCenterPointX(),
-                    tempTile.getCenterPointY());
+                cpus.get(enemies.indexOf(enem)).setPosition(tempTile.getCenterPointX(),
+                        tempTile.getCenterPointY());
+                //i++;
+                if (oldLoc.equals(loc))
+                {
+                    Tile enemTile = grid[loc.x()][loc.y()];
+                    OvalShape ov = new OvalShape(enemTile.getCenterPointX(),
+                        enemTile.getCenterPointY(), 30);
+                    ov.setFillColor(Color.orange);
+                    add(ov);
+                    EnemyBomb bo = new EnemyBomb(enemTile.getCoord().x(),
+                        enemTile.getCoord().y(), 4, 1);
+                    bombs.add(bo);
+                    //ensures that for every Enemybomb, there is a singular
+                    //associated OvalShape
+                    bombImages.put(bo, ov);
+
+                }
             }
-            i++;
-        }
 
-        //Step 3: Bombs decrease in time or go off
+            //Step 3: Bombs decrease in time or go off
 
-        //TODO: do bomb work, includes powerup placement and updating number
-        //of enemies. Also should handle loss of game.
+            checkForExplosion();
 
-        //Step 4: update the board for the enemies assuming the game wasn't lost
-        for (Enemy enem : enemies)
-        {
-            enem.updateBoard(board);
+            //Step 4: update the board for the enemies assuming the game wasn't lost
+            if (!enemies.isEmpty())
+            {
+                for (Enemy enem : enemies)
+                {
+                    enem.updateBoard(board);
+                }
+            }
+            else
+            {
+                startNewLevel();
+            }
         }
     }
 
+    // ----------------------------------------------------------
+    /**
+     * This will begin a new round upon being clicked. Has been coded so that
+     * the button can only be clicked when a round has been won.
+     */
+    public void nextLevelClicked()
+    {
+        initialize();
+    }
+
+    /**
+     * designed to check to see if a bomb should explode
+     */
+    private void checkForExplosion()
+    {
+        iter = bombs.iterator();
+        while (iter.hasNext())
+        {
+            Bomb bomb = iter.next();
+            bomb.countdown(board);
+            if (bomb instanceof AlliedBomb)
+            {
+                if (((AlliedBomb)bomb).hasExploded())
+                {
+                    setTileColors();
+                    int bombx = ((AlliedBomb)bomb).getX();
+                    int bomby = ((AlliedBomb)bomb).getY();
+
+                    //kill any enemies in blast radius
+                    Iterator<Enemy> enemIter = enemies.iterator();
+                    while (enemIter.hasNext())
+                    {
+                        Enemy enem = enemIter.next();
+                        OvalShape ov;
+                        Location eLoc = enem.getLocation();
+                        if (eLoc.equals(new Location(bombx, bomby)))
+                        {
+                            ov = cpus.get(enemies.indexOf(enem));
+                            cpus.remove(ov);
+                            remove(ov);
+                            enemIter.remove();
+                        }
+                        else if (eLoc.equals(new Location(bombx, bomby + 1)))
+                        {
+                            ov = cpus.get(enemies.indexOf(enem));
+                            cpus.remove(ov);
+                            remove(ov);
+                            enemIter.remove();
+                        }
+                        else if (eLoc.equals(new Location(bombx, bomby - 1)))
+                        {
+                            ov = cpus.get(enemies.indexOf(enem));
+                            cpus.remove(ov);
+                            remove(ov);
+                            enemIter.remove();
+                        }
+                        else if (eLoc.equals(new Location(bombx + 1, bomby)))
+                        {
+                            ov = cpus.get(enemies.indexOf(enem));
+                            cpus.remove(ov);
+                            remove(ov);
+                            enemIter.remove();
+                        }
+                        else if (eLoc.equals(new Location(bombx + 1, bomby)))
+                        {
+                            ov = cpus.get(enemies.indexOf(enem));
+                            cpus.remove(ov);
+                            remove(ov);
+                            enemIter.remove();
+                        }
+                    }
+
+                    //kill bomberman if in blast radius
+                    Location eLoc = bomberman.getCoord();
+                    if (eLoc.equals(new Location(bombx, bomby)))
+                    {
+                        remove(player);
+                        bomberman = null;
+
+                    }
+                    else if (eLoc.equals(new Location(bombx, bomby + 1)))
+                    {
+                        remove(player);
+                        bomberman = null;
+                    }
+                    else if (eLoc.equals(new Location(bombx, bomby - 1)))
+                    {
+                        remove(player);
+                        bomberman = null;
+                    }
+                    else if (eLoc.equals(new Location(bombx + 1, bomby)))
+                    {
+                        remove(player);
+                        bomberman = null;
+
+                    }
+                    else if (eLoc.equals(new Location(bombx + 1, bomby)))
+                    {
+                        remove(player);
+                        bomberman = null;
+                    }
+                    iter.remove();
+                    remove(playerBomb);
+                }
+            }
+            else
+            {
+                setTileColors();
+                if (((EnemyBomb)bomb).hasExploded())
+                {
+                    int bombx = ((EnemyBomb)bomb).getX();
+                    int bomby = ((EnemyBomb)bomb).getY();
+                    //enemy bombs don't kill other enemies, just bomberman
+                    Location eLoc = bomberman.getCoord();
+                    if (eLoc.equals(new Location(bombx, bomby)))
+                    {
+                        remove(player);
+                        bomberman = null;
+                    }
+                    else if (eLoc.equals(new Location(bombx, bomby + 1)))
+                    {
+                        remove(player);
+                        bomberman = null;
+                    }
+                    else if (eLoc.equals(new Location(bombx, bomby - 1)))
+                    {
+                        remove(player);
+                        bomberman = null;
+                    }
+                    else if (eLoc.equals(new Location(bombx + 1, bomby)))
+                    {
+                        remove(player);
+                        bomberman = null;
+                    }
+                    else if (eLoc.equals(new Location(bombx + 1, bomby)))
+                    {
+                        remove(player);
+                        bomberman = null;
+                    }
+                    OvalShape ov = bombImages.get(bomb);
+                    bombImages.remove(bomb);
+                    iter.remove();
+                    remove(ov);
+                }
+            }
+        }
+    }
+
+    /**
+     * improve some of the coloring, adds a white border to each tile for
+     *  visual clarity and sets fill colors acording to CellType
+     *  NOTE: setColor sets the border color
+     *  NOTE: setFillColor sets the color of the tile minus the border
+     *  if setFillColor is called without setColor, the border will be the
+     *  color of the fill
+     */
+    private void setTileColors()
+    {
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j < 11; j++)
+            {
+                tempTile = grid[i][j];
+                tempTile.setColor(Color.white);
+                if (board.getCell(tempTile.getCoord()) == CellTypes.DEBRIS)
+                {
+                    tempTile.setFillColor(Color.lightSlateGray);
+                }
+                else if ((board.getCell(tempTile.getCoord()) == CellTypes.WALL))
+                {
+                    tempTile.setFillColor(Color.darkSlateGray);
+                }
+                else if ((board.getCell(tempTile.getCoord()) == CellTypes.PATH))
+                {
+                    tempTile.setFillColor(Color.rgb(0, 160, 0));
+                }
+            }
+        }
+    }
+
+    private void addAlliedBomb(Tile tile)
+    {
+        playerBomb = new OvalShape(tile.getCenterPointX(),
+            tile.getCenterPointY(), 30);
+        playerBomb.setFillColor(Color.orange);
+        add(playerBomb);
+        bombs.add(new AlliedBomb(tile.getCoord().x(), tile.getCoord().y(),
+            bomberman.getTime() + 1, 1));
+    }
+
+    private void startNewLevel()
+    {
+        if (numEnemies < 4)
+        {
+            numEnemies++;
+        }
+        else
+        {
+            numEnemies = 1;
+        }
+        initialize();
+    }
 }
