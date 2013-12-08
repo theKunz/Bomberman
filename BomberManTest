@@ -1,0 +1,57 @@
+package cs2114.bomberman;
+
+// -------------------------------------------------------------------------
+/**
+ *  Tests the BomberMan class
+ *
+ *  @author Aaron
+ *  @version Dec 8, 2013
+ */
+public class BombermanTest extends student.TestCase
+{
+    private BomberMan bomberman;
+
+    /**
+     * sets up common variables, structures, and algorithms for testings
+     */
+    public void setUp()
+    {
+        bomberman = new BomberMan();
+    }
+
+    /**
+     * tests getter methods
+     */
+    public void testGetters()
+    {
+        assertEquals(3, bomberman.getTime());
+        assertTrue(bomberman.getCoord().equals(new Location(0, 0)));
+    }
+
+    /**
+     * test the methods moveUp() moveDown() moveRight() moveLeft()
+     */
+    public void testMovement()
+    {
+        bomberman.moveLeft();
+        bomberman.moveUp();
+        assertTrue(bomberman.getCoord().equals(new Location(0, 0)));
+
+        bomberman.moveRight();
+        bomberman.moveDown();
+        assertTrue(bomberman.getCoord().equals(new Location(1, 1)));
+
+        for (int i = 0; i < 7; i++)
+        {
+            bomberman.moveRight();
+        }
+        for (int j = 0; j < 11; j++)
+        {
+            bomberman.moveDown();
+        }
+
+        bomberman.moveDown();
+        bomberman.moveRight();
+        assertTrue(bomberman.getCoord().equals(new Location(7, 11)));
+    }
+}
