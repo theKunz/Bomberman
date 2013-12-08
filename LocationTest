@@ -1,0 +1,53 @@
+package com.proj3.bomberman;
+
+// -------------------------------------------------------------------------
+/**
+ *  This tests the Location class
+ *
+ *  @author Aaron
+ *  @version Dec 8, 2013
+ */
+public class LocationTest extends student.TestCase
+{
+    private Location loc1;
+    private Location loc2;
+
+    public void setUp()
+    {
+        loc1 = new Location(1, 1);
+        loc2 = new Location(2, 2);
+    }
+
+    /**
+     * tests the methods that return a new location in the 4 cardinal directions
+     */
+    public void testNorthSouthEastWest()
+    {
+        assertTrue(loc2.east().equals(new Location(3, 2)));
+        assertTrue(loc2.west().equals(new Location(1, 2)));
+        assertTrue(loc1.north().equals(new Location(1, 0)));
+        assertTrue(loc1.south().equals(new Location(1, 2)));
+
+        //boundary checks
+        Location loc3 = new Location(6, 10);
+        assertFalse(loc3.east().equals(new Location(7, 10)));
+        assertFalse(loc3.south().equals(new Location(6, 11)));
+        Location loc4 = new Location(0, 0);
+        assertFalse(loc4.west().equals(new Location(-1, 0)));
+        assertFalse(loc4.north().equals(new Location(0, -1)));
+
+    }
+
+    /**
+     * tests toString() and x() and y()
+     */
+    public void testGetters()
+    {
+        assertTrue(loc1.toString().equals("(1, 1)"));
+        assertTrue(loc2.toString().equals("(2, 2)"));
+
+        Location loc3 = new Location(1, 2);
+        assertEquals(1, loc3.x());
+        assertEquals(2, loc3.y());
+    }
+}
