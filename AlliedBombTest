@@ -1,0 +1,61 @@
+package cs2114.bomberman;
+
+import cs2114.bomberman.BoardCell.CellTypes;
+
+// -------------------------------------------------------------------------
+/**
+ *  Tests for the AlliedBomb class
+ *
+ *  @author Aaron
+ *  @version Dec 8, 2013
+ */
+public class AlliedBombTest extends student.TestCase
+{
+    private AlliedBomb bomb;
+    private Board board;
+
+    /**
+     * for setting common variables, structures, and algorithms
+     */
+    public void setUp()
+    {
+        bomb = new AlliedBomb(2, 2, 3, 1);
+        board = new Board();
+    }
+
+    /**
+     * tests the getter methods
+     */
+    public void testGetters()
+    {
+        assertEquals(3, bomb.getCountdown());
+        assertEquals(2, bomb.getX());
+        assertEquals(2, bomb.getY());
+        assertFalse(bomb.hasExploded());
+    }
+
+    /**
+     * tests the explosion process of the bomb
+     */
+    public void testExplode()
+    {
+        bomb.countdown(board);
+        assertEquals(2, bomb.getCountdown());
+        bomb.countdown(board);
+        assertEquals(1, bomb.getCountdown());
+        bomb.countdown(board);
+        assertTrue(bomb.hasExploded());
+        assertEquals(board.getCell(new Location(2, 1)), CellTypes.PATH);
+        assertEquals(board.getCell(new Location(1, 2)), CellTypes.PATH);
+        assertEquals(board.getCell(new Location(2, 3)), CellTypes.PATH);
+
+        //for bounds checking
+        //no out-of-bounds error means it worked as intended
+        AlliedBomb botRight = new AlliedBomb(6, 10, 3, 1);
+        AlliedBomb topLeft = new AlliedBomb(0, 0, 3, 1);
+        botRight.explode(board);
+        topLeft.explode(board);
+        assertTrue(botRight.hasExploded());
+        assertTrue(topLeft.hasExploded());
+    }
+}
