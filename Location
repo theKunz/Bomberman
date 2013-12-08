@@ -47,7 +47,7 @@ public class Location
      */
     public Location east()
     {
-        if (x < 7)
+        if (x < 6)
             //bounds checking
         {
             return new Location(x + 1, y);
@@ -100,7 +100,7 @@ public class Location
      */
     public Location south()
     {
-        if (y < 11)
+        if (y < 10)
             //bounds checking
         {
             return new Location(x, y + 1);
