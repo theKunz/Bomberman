@@ -64,7 +64,7 @@ public class BomberManScreen extends ShapeScreen
         tempTile = grid[0][0];
         player = new OvalShape(tempTile.getCenterPointX(),
             tempTile.getCenterPointY(), 20);
-        player.setFillColor(Color.blue);
+        player.setImage("bomberman");
         add(player);
 
         //add the enemies, currently only supports up to 4, will get
@@ -78,7 +78,7 @@ public class BomberManScreen extends ShapeScreen
             enemies.add(tempEnemy);
             cpus.add(new OvalShape(tempTile.getCenterPointX(),
                         tempTile.getCenterPointY(), 20));
-            cpus.get(i).setFillColor(Color.red);
+            cpus.get(i).setImage("enemy");
             add(cpus.get(i));
         }
         bombs = new ArrayList<Bomb>();
@@ -191,7 +191,7 @@ public class BomberManScreen extends ShapeScreen
                     Tile enemTile = grid[loc.x()][loc.y()];
                     OvalShape ov = new OvalShape(enemTile.getCenterPointX(),
                         enemTile.getCenterPointY(), 30);
-                    ov.setFillColor(Color.orange);
+                    ov.setImage("bomb");
                     add(ov);
                     EnemyBomb bo = new EnemyBomb(enemTile.getCoord().x(),
                         enemTile.getCoord().y(), 4, 1);
@@ -381,11 +381,11 @@ public class BomberManScreen extends ShapeScreen
                 tempTile.setColor(Color.white);
                 if (board.getCell(tempTile.getCoord()) == CellTypes.DEBRIS)
                 {
-                    tempTile.setFillColor(Color.lightSlateGray);
+                    tempTile.setImage("debris");
                 }
                 else if ((board.getCell(tempTile.getCoord()) == CellTypes.WALL))
                 {
-                    tempTile.setFillColor(Color.darkSlateGray);
+                    tempTile.setImage("wall");
                 }
                 else if ((board.getCell(tempTile.getCoord()) == CellTypes.PATH))
                 {
@@ -399,7 +399,7 @@ public class BomberManScreen extends ShapeScreen
     {
         playerBomb = new OvalShape(tile.getCenterPointX(),
             tile.getCenterPointY(), 30);
-        playerBomb.setFillColor(Color.orange);
+        playerBomb.setImage("bomb");
         add(playerBomb);
         bombs.add(new AlliedBomb(tile.getCoord().x(), tile.getCoord().y(),
             bomberman.getTime() + 1, 1));
@@ -425,9 +425,9 @@ public class BomberManScreen extends ShapeScreen
         float top = tempTile.getHeight() * y;
         float bottom = tempTile.getHeight() * (y + 1);
         float left = tempTile.getWidth() * x;
-        float right = tempTile.getWidth() * (y + 1);
+        float right = tempTile.getWidth() * (x + 1);
         RectangleShape rect = new RectangleShape(left, top, right, bottom);
-        rect.setFillColor(Color.purple);
+        rect.setImage("explosion");
         expImages.add(rect);
         add(rect);
         if (x > 0)
@@ -437,12 +437,11 @@ public class BomberManScreen extends ShapeScreen
             top = tempTile.getHeight() * y;
             bottom = tempTile.getHeight() * (y + 1);
             left = tempTile.getWidth() * (x - 1);
-            right = tempTile.getWidth() * (x);
+            right = tempTile.getWidth() * x;
             rect = new RectangleShape(left, top, right, bottom);
-            rect.setFillColor(Color.purple);
+            rect.setImage("explosion");
             expImages.add(rect);
             add(rect);
-            System.out.println(top + " " + bottom + " " + right + " " + " " + left);
         }
         if (x < 6)
         {
@@ -453,24 +452,22 @@ public class BomberManScreen extends ShapeScreen
             left = tempTile.getWidth() * (x + 1);
             right = tempTile.getWidth() * (x + 2);
             rect = new RectangleShape(left, top, right, bottom);
-            rect.setFillColor(Color.purple);
+            rect.setImage("explosion");
             expImages.add(rect);
             add(rect);
-            System.out.println(top + " " + bottom + " " + right + " " + " " + left);
         }
         if (y > 0)
         {
             System.out.println("reached 3");
             tempTile = grid[x][y - 1];
             top = tempTile.getHeight() * (y - 1);
-            bottom = tempTile.getHeight() * (y);
+            bottom = tempTile.getHeight() * y;
             left = tempTile.getWidth() * x;
             right = tempTile.getWidth() * (x + 1);
             rect = new RectangleShape(left, top, right, bottom);
-            rect.setFillColor(Color.purple);
+            rect.setImage("explosion");
             expImages.add(rect);
             add(rect);
-            System.out.println(top + " " + bottom + " " + right + " " + " " + left);
         }
         if (y < 10)
         {
@@ -481,10 +478,9 @@ public class BomberManScreen extends ShapeScreen
             left = tempTile.getWidth() * x;
             right = tempTile.getWidth() * (x + 1);
             rect = new RectangleShape(left, top, right, bottom);
-            rect.setFillColor(Color.purple);
+            rect.setImage("explosion");
             expImages.add(rect);
             add(rect);
-            System.out.println(top + " " + bottom + " " + right + " " + " " + left);
         }
     }
 
