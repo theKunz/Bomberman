@@ -4,9 +4,9 @@ import cs2114.bomberman.BoardCell.CellTypes;
 
 // -------------------------------------------------------------------------
 /**
- *  this is our AlliedBomb class.
- *  This bomb will be placed by the player It will destroy debris and
- *  damage the player controlled bomberman. it will harm NPC bombermans.
+ * this is our AlliedBomb class.
+ * This bomb will be placed by the player It will destroy debris and
+ * damage the player controlled bomberman. it will harm NPC bombermans.
  *
  * @author zhinson
  * @author crc1559
@@ -14,29 +14,11 @@ import cs2114.bomberman.BoardCell.CellTypes;
  * @version 11.12.2013
  */
 
-public class AlliedBomb
+public class AlliedBomb implements Bomb
 {
-    private Location location;
-    /**
-     * range of the explosion
-     */
-    private int explosionRadius;
-    /**
-     * this tracks how many steps the player has remaining before the bomb
-     * goes off
-     */
     private int fuseRemaining;
-    /**
-     * tracks if the bomb has exploded or not
-     */
     private boolean hasExploded;
-    /**
-     * x location
-     */
     private int x;
-    /**
-     * y location
-     */
     private int y;
 
     /**
@@ -54,19 +36,21 @@ public class AlliedBomb
             //two more checks
         {
             fuseRemaining = fuse;
-            explosionRadius = radius;
             hasExploded = false;
+            x = xLoc;
+            y = yLoc;
         }
         //i don't ever want my maxFuse to be less than 2
-        //          this allows bomberman to move away safely from his bombs
+        // this allows bomberman to move away safely from his bombs
         //or my radius to be less than 1
-        //          this allows bombs to actually destroy things
+        // this allows bombs to actually destroy things
     }
 
     /**
      * tracks the number of steps until explosionsssssssss!
+     * @param board to explode on
      */
-    public void countdown()
+    public void countdown(Board board)
     {
         if (fuseRemaining > 1)
         {
@@ -77,7 +61,8 @@ public class AlliedBomb
             //if fuse remaining is 1 and this is called, go boom
             //but don't go boom more than once
         {
-            explode();
+            fuseRemaining--;
+            explode(board);
         }
     }
 
@@ -91,86 +76,55 @@ public class AlliedBomb
     }
 
     /**
-     * when countdown has expired, go boom!
+     * when countdown has expired, go boom! This only changes the board!
+     * exploding a character must be done in the screen
+     * @param board to explode on
      */
-    public void explode()
+    public void explode(Board board)
     {
         hasExploded = true;
-        explodeNorth();
-        explodeSouth();
-        explodeEast();
-        explodeWest();
-    }
-
-    // ----------------------------------------------------------
-    /**
-     * Destroys the debris wall to the north of it if there is one.
-     */
-    public void explodeNorth()
-    {
-        for (int i = 1; i <= explosionRadius; i++)
+        if (x > 0)
         {
-            location = new Location(x, y - i);
-            helpExplode();
-            /** for all of these I need to figure out
-             * how to be able to tell if it hits a wall / debris / bomberman
-             * and when that happens, destory (unless wall) the object
-             * and break out of the loop
-             */
+            //west explosion
+            if (board.getCell(new Location(x - 1, y)) == CellTypes.DEBRIS)
+            {
+                board.setCell(new Location(x - 1, y), CellTypes.PATH);
+            }
         }
-
-    }
-
-    /**
-     * Destroys the debris wall to the south of it if there is one.
-     */
-    public void explodeSouth()
-    {
-        for (int i = 1; i <= explosionRadius; i++)
+        if (x < 6)
         {
-            location = new Location(x, y + i);
-            helpExplode();
+            //east explosion
+            if (board.getCell(new Location(x + 1, y)) == CellTypes.DEBRIS)
+            {
+                board.setCell(new Location(x + 1, y), CellTypes.PATH);
+            }
+        }
+        if (y < 10)
+        {
+            //south explosion
+            if (board.getCell(new Location(x, y + 1)) == CellTypes.DEBRIS)
+            {
+                board.setCell(new Location(x, y + 1), CellTypes.PATH);
+            }
+        }
+        if (y > 0)
+        {
+            //north explosion
+            if (board.getCell(new Location(x, y - 1)) == CellTypes.DEBRIS)
+            {
+                board.setCell(new Location(x, y - 1), CellTypes.PATH);
+            }
         }
     }
 
     /**
-     * Destroys the debris wall to the east of it if there is one.
+     * returns the time remaining before explosiong
+     * @return an int
      */
-    public void explodeEast()
+    public int getCountdown()
     {
-        for (int i = 1; i <= explosionRadius; i++)
-        {
-            location = new Location(x + i, y);
-            helpExplode();
-        }
+        return fuseRemaining;
     }
-
-    /**
-     * Destroys the debris wall to the west of it if there is one.
-     */
-    public void explodeWest()
-    {
-        for (int i = 1; i <= explosionRadius; i++)
-        {
-            location = new Location(x - i, y);
-            helpExplode();
-        }
-    }
-
-    // ----------------------------------------------------------
-    /**
-     * Checks to see if the surrounding cells are of CellType DEBRIS. If so,
-     * the bomb destroys the wall and makes it a path.
-     */
-    public void helpExplode()
-    {
-        if (Board.cells[location.x()][location.y()] == CellTypes.DEBRIS)
-        {
-        Board.cells[location.x()][location.y()] = CellTypes.PATH;
-        }
-    }
-
-
     /**
      * returns x
      * @return x x loc
