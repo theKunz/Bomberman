@@ -2,12 +2,14 @@ package cs2114.bomberman;
 
 // -------------------------------------------------------------------------
 /**
- *  This interface is going to be used so that calls and distinctions can be
- *  easily made between allied bombs and enemy bombs. Thanks to the use of
- *  instanceof
+ * This interface is going to be used so that calls and distinctions can be
+ * easily made between allied bombs and enemy bombs. Thanks to the use of
+ * instanceof
  *
- *  @author Aaron Kunzer
- *  @version Dec 7, 2013
+ * @author Aaron Kunzer
+ * @author zhinson
+ * @author crc1559
+ * @version Dec 7, 2013
  */
 public interface Bomb
 {
