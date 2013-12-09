@@ -1,0 +1,68 @@
+package cs2114.bomberman;
+
+import student.TestCase;
+import sofia.util.Random;
+import cs2114.bomberman.BoardCell.CellTypes;
+
+// -------------------------------------------------------------------------
+/**
+ *  This is for testing the Enemy class
+ *
+ *  @author Aaron
+ *  @version Dec 8, 2013
+ */
+public class EnemyTest
+    extends TestCase
+{
+    private Enemy enem;
+    private Board board;
+
+    /**
+     * method for common variables, structures, and algorithms
+     */
+    public void setUp()
+    {
+        board = new Board();
+        enem = new Enemy(new Location(2, 2), board);
+        for (int i = 0; i < 7; i++)
+        {
+            for (int j = 0; j <11; j++)
+            {
+                board.setCell(new Location(i, j), CellTypes.PATH);
+            }
+        }
+    }
+
+    /**
+     * test the getter and setter methods
+     */
+    public void testGettersSetters()
+    {
+        enem.setLocation(new Location(3, 2));
+        assertTrue(enem.getLocation().equals(new Location(3, 2)));
+        assertEquals(0, enem.getCountDownTimer());
+        enem.updateBoard(board);
+    }
+
+    /**
+     * tests the action algorithm. Uses preset "random" numbers
+     */
+    public void testAction()
+    {
+        Random.setNextInts(4, 4, 3, 2, 1, 0);
+        enem.action();
+        assertEquals(3, enem.getCountDownTimer());
+        enem.action();
+        assertEquals(2, enem.getCountDownTimer());
+        assertTrue(enem.getLocation().equals(new Location(1, 2)));
+        enem.action();
+        assertEquals(1, enem.getCountDownTimer());
+        assertTrue(enem.getLocation().equals(new Location(2, 2)));
+        enem.action();
+        assertEquals(3, enem.getCountDownTimer());
+        assertTrue(enem.getLocation().equals(new Location(2, 3)));
+        enem.action();
+        assertEquals(3, enem.getCountDownTimer());
+        assertTrue(enem.getLocation().equals(new Location(2, 2)));
+    }
+}
