@@ -1,0 +1,104 @@
+package cs2114.bomberman;
+
+import cs2114.bomberman.BoardCell.CellTypes;
+
+// -------------------------------------------------------------------------
+/**
+ * Tests all of the methods in BomberManScreen to ensure they are performing the
+ * right operations when called.
+ *
+ * @author Cody Cummings
+ * @version Dec 8, 2013
+ */
+public class BomberManScreenTest
+    extends student.AndroidTestCase<BomberManScreen>
+{
+
+    // ----------------------------------------------------------
+    /**
+     * Create a new BomberManScreenTest that tests each method in
+     * BomberManScreen to make sure they do what they are supposed to.
+     */
+    public BomberManScreenTest()
+    {
+        super(BomberManScreen.class);
+        // TODO Auto-generated constructor stub
+    }
+
+
+    private BomberManScreen bms;
+    private Location loc;
+
+    public void setUp()
+    {
+        bms = getScreen();
+    }
+
+
+
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     */
+    public void testInitialize()
+    {
+
+        bms.initialize();
+        assertEquals(7, bms.grid.length);
+        loc = new Location(0, 0);
+        assertEquals(CellTypes.PATH, bms.board.getCell(loc));
+        loc = new Location(2,2);
+        assertEquals(CellTypes.PATH, bms.board.getCell(loc));
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Tests that the onTouchDown method works for the right and left directions
+     * and places a bomb when clicked on BomberMan.
+     */
+    public void testOnTouchDown()
+    {
+        bms.onTouchDown(bms.grid[0][0].getX(), bms.grid[0][0].getY());
+        bms.onTouchDown(bms.grid[0][0].getX(), bms.grid[0][0].getY());
+        loc = new Location(0, 0);
+        assertEquals(loc, bms.bomberman.getCoord());
+        bms.onTouchDown(bms.grid[1][0].getX(), bms.grid[1][0].getY());
+        loc = new Location(1, 0);
+        assertEquals(loc, bms.bomberman.getCoord());
+        loc = new Location(0, 0);
+        bms.onTouchDown(bms.grid[0][0].getX(), bms.grid[0][0].getY());
+        assertEquals(loc, bms.bomberman.getCoord());
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Tests the onTouchDown method works for the up and down directions.
+     */
+    public void testOnTouchDown2()
+    {
+        bms.onTouchDown(bms.grid[0][1].getX(), bms.grid[0][1].getY());
+        loc = new Location(0, 1);
+        assertEquals(loc, bms.bomberman.getCoord());
+        bms.onTouchDown(bms.grid[0][0].getX(), bms.grid[0][0].getY());
+        loc = new Location(0, 0);
+        assertEquals(loc, bms.bomberman.getCoord());
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * Place a description of your method here.
+     */
+    public void testCheckForExplosions()
+    {
+        bms.onTouchDown(bms.grid[1][0].getX(), bms.grid[1][0].getY());
+        bms.onTouchDown(bms.grid[1][0].getX(), bms.grid[1][0].getY());
+        bms.checkForExplosion();
+        bms.onTouchDown(bms.grid[0][0].getX(), bms.grid[0][0].getY());
+        bms.checkForExplosion();
+        bms.onTouchDown(bms.grid[0][1].getX(), bms.grid[0][1].getY());
+        bms.checkForExplosion();
+        bms.onTouchDown(bms.grid[1][2].getX(), bms.grid[0][2].getY());
+        bms.checkForExplosion();
+
+    }
+}
